@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if ! command -v golangci-lint &> /dev/null
+then
+    echo "pre-commit hook: golangci-lint could not be found. Install it manually."
+    exit 1
+fi
+
+golangci-lint run --new-from-rev HEAD --fix
+if [[ $? -ne 0 ]]; then
+  echo "golangci-lint failed. Please fix the linting errors before committing."
+  exit 1
+fi
